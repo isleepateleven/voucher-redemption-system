@@ -15,7 +15,7 @@ import "./Navbar.css";
 const Navbar = () => {
   const navigate = useNavigate();
   const menuRef = useRef(null);
-  // const { user, userProfile } = useAuth();
+  const { userProfile } = useAuth();
 
   const handleLogoutConfirm = () => {
     confirmDialog({
