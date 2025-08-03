@@ -1,0 +1,31 @@
+.user-management {
+  padding: 1rem 0;
+}
+
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  font-size: 0.875rem;
+}
+
+.user-table th,
+.user-table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.user-table th {
+  background-color: #f9f9f9;
+  font-weight: 600;
+  color: #333;
+}
+
+.user-table tr:last-child td {
+  border-bottom: none;
+}
+

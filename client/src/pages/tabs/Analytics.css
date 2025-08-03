@@ -1,0 +1,28 @@
+.analytics {
+  padding: 1.5rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+.chart-section {
+  width: 100%;
+  max-width: 1000px;
+  padding: 1rem 0rem 1rem 1rem;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.chart-section h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 1rem 0rem 1.5rem 1rem;
+  color: #333;
+}
+
+.chart-container {
+  width: 90%;
+  /* height: 315px; */
+}

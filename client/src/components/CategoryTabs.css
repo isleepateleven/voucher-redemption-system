@@ -1,0 +1,21 @@
+.category-tabs {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid #eee;
+}
+
+.category-tabs button {
+  background: transparent;
+  border: none;
+  font-weight: 500;
+  cursor: pointer;
+  color: #666;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+}
+
+.category-tabs button.active {
+  color: #5e4596;
+  background-color: #f1edf7;
+}

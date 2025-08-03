@@ -1,0 +1,98 @@
+.voucher-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.voucher-modal-content {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 16px;
+  max-width: 500px;
+  width: 90%;
+  position: relative;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.voucher-modal-image {
+  width: 100%;
+  border-radius: 12px;
+  object-fit: cover;
+  max-height: 200px;
+  margin-bottom: 1rem;
+}
+
+.voucher-modal-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+}
+
+.voucher-modal-description,
+.voucher-modal-terms,
+.voucher-modal-points,
+.voucher-modal-limit,
+.voucher-modal-expiry {
+  font-size: 0.85rem;
+  color: #444;
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+}
+
+.voucher-modal-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.2rem;
+  margin-bottom: 0;
+}
+
+.voucher-modal-btn {
+  flex: 1;
+  padding: 0.9rem 1.25rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.voucher-modal-btn.redeem {
+  background-color: #665290;
+  color: white;
+}
+
+.voucher-modal-btn.cart {
+  background-color: #f1f1f1;
+  color: #333;
+}
+
+.voucher-modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  border: none;
+  background: transparent;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.voucher-modal-btn.expired-placeholder {
+  flex: 1;
+  padding: 0.9rem 1.25rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: 999px;
+  background-color: #ccc;
+  color: #666;
+  text-align: center;
+  user-select: none;
+  cursor: default;
+}

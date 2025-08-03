@@ -1,0 +1,133 @@
+.navbar {
+  background: white;
+  border-bottom: 1px solid #eee;
+  padding: 0.8rem 1.5rem;
+  width: 100%;
+}
+
+.navbar-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
+  width: 100%;
+  flex-wrap: nowrap;
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-brand {
+  font-size: 1.4rem;
+  font-weight: bold;
+  background: linear-gradient(to right, #3f51b5, #9c27b0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  cursor: pointer;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.navbar-cart,
+.navbar-wallet,
+.navbar-admin {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.3rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cart-icon,
+.wallet-icon,
+.admin-icon {
+  font-size: 1.4rem;
+  color: #444;
+  transition: color 0.2s ease;
+}
+
+.cart-icon:hover,
+.wallet-icon:hover,
+.admin-icon:hover {
+  color: #8e7cc3;
+}
+
+.navbar-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  object-fit: cover;
+}
+
+.navbar-avatar-icon {
+  font-size: 32px;
+  color: #444;
+  cursor: pointer;
+}
+
+.p-menu {
+  background-color: #fff !important;
+  border: 1px solid #eee !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06) !important;
+  padding: 0.4rem 0;
+  min-width: 150px;
+}
+
+.p-menu .p-menuitem-link {
+  padding: 0.6rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #333 !important;
+  background: white !important;
+  transition: color 0.2s ease;
+}
+
+.p-menu .p-menuitem-link:hover {
+  color: #6b4bbd !important;
+}
+
+/* Responsive for small devices */
+@media (max-width: 768px) {
+  .navbar-content {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0 0.5rem;
+  }
+
+  .navbar-brand {
+    font-size: 1.2rem;
+  }
+
+  .navbar-right {
+    gap: 0.7rem;
+  }
+
+  .cart-icon,
+  .wallet-icon,
+  .admin-icon {
+    font-size: 1.3rem;
+  }
+
+  .navbar-avatar {
+    width: 28px;
+    height: 28px;
+  }
+
+  .navbar-avatar-icon {
+    font-size: 28px;
+  }
+}

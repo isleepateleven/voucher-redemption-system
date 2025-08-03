@@ -1,0 +1,116 @@
+.profile-page {
+  min-height: calc(100vh - 64px);
+  padding: 1rem 2rem;
+  background-color: #f7f7fb;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-family: 'Poppins', sans-serif;
+}
+
+.profile-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  margin-top: 0.5rem;
+  color: #333;
+}
+
+.profile-form {
+  width: 100%;
+  max-width: 680px;
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  font-size: 0.85rem;
+}
+
+.profile-form label {
+  font-weight: 600;
+  color: #444;
+  margin: 0.5rem 0 0.25rem;
+}
+
+.profile-input,
+.profile-textarea {
+  padding: 0.6rem 0.75rem;
+  font-size: 0.85rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  width: 100%;
+  margin-bottom: 0.35rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+.profile-input:disabled {
+  background-color: #f0f0f0;
+  color: #888;
+}
+
+.profile-textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.profile-avatar-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.profile-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ccc;
+  margin-bottom: 0.75rem;
+}
+
+.profile-avatar-wrapper input[type="file"] {
+  display: block;
+  text-align: center;
+  font-size: 0.85rem;
+  margin-bottom: 0.25rem;
+}
+
+.profile-avatar-wrapper input[type="file"]::file-selector-button {
+  margin-bottom: 0.5rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: #eee;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.profile-avatar-wrapper input[type="file"]::file-selector-button:hover {
+  background-color: #ddd;
+}
+
+.profile-avatar-icon {
+  font-size: 100px;
+  color: #ccc;
+}
+
+.save-button {
+  margin-top: 1.5rem;
+  padding: 0.5rem 1.5rem;
+  background-color: #5e4596;
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  align-self: flex-end;
+  transition: background-color 0.2s ease;
+}
+
+.save-button:hover {
+  background-color: #7e6bcf;
+}

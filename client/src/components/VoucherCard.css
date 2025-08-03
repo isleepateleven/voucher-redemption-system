@@ -1,0 +1,132 @@
+.voucher-card {
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  background-color: #fff;
+  transition: transform 0.2s ease;
+  width: 260px;
+  height: 285px;
+  margin: 0.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.voucher-card:hover {
+  transform: translateY(-4px);
+}
+
+.voucher-image {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+}
+
+.voucher-details {
+  padding: 0.75rem 1rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+.voucher-title {
+  font-size: 1rem;
+  margin: 0.2rem 0 0.2rem;
+  line-height: 1.2;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;         
+  -webkit-box-orient: vertical;
+  word-break: break-word;      
+}
+
+.voucher-description {
+  font-size: 0.75rem;
+  color: #666;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+  height: 2.4em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  max-width: 100%;
+}
+
+.voucher-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: auto;
+}
+
+.voucher-button {
+  flex: 1;
+  min-width: 100px;
+  padding: 0.6rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.voucher-button.redeem {
+  background-color: #665290;
+  color: white;
+}
+
+.voucher-button.redeem:hover {
+  background-color: #9986d0;
+  transform: translateY(-1px);
+}
+
+.voucher-button.cart {
+  background-color: #f1f1f1;
+  color: #333;
+}
+
+.voucher-button.cart:hover {
+  background-color: #e0e0e0;
+  transform: translateY(-1px);
+}
+
+.voucher-button.expired-placeholder {
+  flex: 1;
+  min-width: 100px;
+  padding: 0.6rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-align: center;
+  background-color: #ccc;
+  color: #666;
+  cursor: default;
+  user-select: none;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: white;
+}
+
+.status-badge.expired {
+  background-color: #777;
+}
+
+.status-badge.out {
+  background-color: #cc3333;
+}
+
+.voucher-status {
+  margin-bottom: 0.5rem;
+}
