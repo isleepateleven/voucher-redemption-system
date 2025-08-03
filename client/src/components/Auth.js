@@ -18,7 +18,7 @@ import "./Auth.css";
 
 const Auth = () => {
   const { showToast } = useToast();
-  const { user } = useContext(AuthContext);
+  // const { user } = useContext(AuthContext);
   const [isRegister, setIsRegister] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
