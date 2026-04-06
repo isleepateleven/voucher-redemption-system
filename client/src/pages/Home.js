@@ -1,27 +1,30 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useToast } from "../context/ToastContext";
+
+import Navbar from "../components/Navbar";
 import VoucherCard from "../components/VoucherCard";
 import VoucherModal from "../components/VoucherModal";
-import Navbar from "../components/Navbar";
-import { addToCart } from "../services/cartService";
+
+import { getAllVouchers } from "../services/voucherService";
+import { getUserById } from "../services/userService";
 import "./Home.css";
 
 const Home = () => {
   const { user } = useAuth();
   const { showToast } = useToast();
+
   const [vouchers, setVouchers] = useState([]);
   const [categories, setCategories] = useState([]);
   const [activeCategory, setActiveCategory] = useState("All");
   const [points, setPoints] = useState(0);
   const [selectedVoucher, setSelectedVoucher] = useState(null);
 
-  // Fetch all vouchers and categories
+  // Load all vouchers and categories
   useEffect(() => {
     const fetchVouchers = async () => {
       try {
-        const res = await fetch("http://localhost:5001/api/vouchers");
-        const data = await res.json();
+        const data = await getAllVouchers();
         setVouchers(data);
 
         const categoryNames = [
@@ -36,73 +39,33 @@ const Home = () => {
     fetchVouchers();
   }, []);
 
-  // Fetch user points
+  // Load current user's points
   useEffect(() => {
-    const fetchUserPoints = async () => {
-      if (!user?.uid) return;
+      const loadUserPoints = async () => {
+        if (!user?.uid) return;
 
-      try {
-        const res = await fetch(`http://localhost:5001/api/users/${user.uid}`);
-        const data = await res.json();
-        setPoints(data.points || 0);
-      } catch (err) {
-        console.error("Error fetching user points:", err);
-      }
-    };
+        try {
+          const profile = await getUserById(user.uid);
+          setPoints(profile.points || 0);
+        } catch (err) {
+          console.error("Error fetching user points:", err);
+        }
+      };
 
-    fetchUserPoints();
-  }, [user]);
+      loadUserPoints();
+    }, [user]);
 
-  // Filter vouchers by category
+  // Filter vouchers by selected category
   const filteredVouchers =
     activeCategory === "All"
       ? vouchers
       : vouchers.filter((v) => v.category_id?.name === activeCategory);
 
-  // Add to cart handler
-  const handleAddToCart = async (voucher) => {
-    if (!user?.uid || !voucher?._id || !voucher?.title) {
-      showToast({
-        severity: "error",
-        summary: "Add to Cart Failed",
-        detail: "Missing user or voucher details.",
-      });
-      return;
-    }
-
-    const data = {
-      user_id: user.uid,
-      voucher_id: voucher._id,
-      quantity: 1,
-    };
-
-    try {
-      await addToCart(data);
-      showToast({
-        severity: "success",
-        summary: "Added to Cart",
-        detail: `${voucher.title} has been added to your cart.`,
-      });
-    } catch (err) {
-      console.error("Add to cart failed:", err);
-      showToast({
-        severity: "error",
-        summary: "Add to Cart Failed",
-        detail: err.message || "There was an issue adding to cart.",
-      });
-    }
-  };
-
-  // Handle direct redeem
-  const handleRedeem = (voucher) => {
-    setSelectedVoucher(voucher); // open modal
-  };
 
   return (
     <>
       <Navbar />
       <div className="home-wrapper">
-        {/* Banner */}
         <div className="home-banner">
           <h1>
             Discover Amazing with <span className="highlight">VoucherBank</span>
@@ -145,17 +108,16 @@ const Home = () => {
               key={voucher._id}
               voucher={voucher}
               onClick={() => setSelectedVoucher(voucher)}
-              onAddToCart={handleAddToCart}
-              onRedeem={handleRedeem}
             />
           ))}
         </div>
 
-        {/* Voucher Modal */}
+        {/* Voucher Details (Voucher Modal) */}
         <VoucherModal
           voucher={selectedVoucher}
           onClose={() => setSelectedVoucher(null)}
         />
+
       </div>
     </>
   );

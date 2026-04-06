@@ -1,37 +1,54 @@
-// client/src/components/Chatbot.js
-import React, { useState } from "react";
-import "./Chatbot.css";
+import React, { useEffect, useRef, useState } from "react";
 import { FaRegCommentDots } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 
-const Chatbot = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState([
-    { role: "bot", content: "Hi there! How can I assist you today?" },
-  ]);
-  const [input, setInput] = useState("");
-  const [isTyping, setIsTyping] = useState(false);
+import { sendMessage } from "../services/chatService";
+import "./Chatbot.css";
 
+const Chatbot = () => {
+  const [input, setInput] = useState("");  // user input
+  const [isTyping, setIsTyping] = useState(false);  // bot typing indicator
+  const [isOpen, setIsOpen] = useState(false);  // control open/close
+  const [messages, setMessages] = useState([{ 
+    role: "bot", 
+    content: "Hi there! How can I assist you today?" },
+  ]);
+
+  const chatBodyRef = useRef(null); // for auto scroll
+
+  // Toggle chatbot open/close
   const toggleChat = () => setIsOpen((prev) => !prev);
 
-  const handleSend = async () => {
-    if (!input.trim()) return;
+  // Auto scroll to latest message
+  useEffect(() => {
+    if (chatBodyRef.current) {
+      chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
+    }
+  }, [messages, isTyping, isOpen]);
 
-    const newMessages = [...messages, { role: "user", content: input }];
-    setMessages(newMessages);
+  // Send message to backend and get reply
+  const handleSend = async () => {
+    const trimmed = input.trim();
+
+    // prevent empty or duplicate sending
+    if (!trimmed || isTyping) return;
+
+    // add user message to UI
+    setMessages((prev) => [...prev, { role: "user", content: trimmed }]);
     setInput("");
     setIsTyping(true);
 
     try {
-      const res = await fetch("http://localhost:5001/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: input }),
-      });
+      // call service instead of fetch
+      const reply = await sendMessage(trimmed);
 
-      const data = await res.json();
-      setMessages((prev) => [...prev, { role: "bot", content: data.reply }]);
-    } catch {
+      // add bot reply
+      setMessages((prev) => [
+        ...prev,
+        { role: "bot", content: reply || "No response generated." },
+      ]);
+    } catch (error) {
+      // fallback message if API fails
       setMessages((prev) => [
         ...prev,
         {
@@ -44,8 +61,12 @@ const Chatbot = () => {
     }
   };
 
+  // Send on Enter key (without Shift)
   const handleKeyPress = (e) => {
-    if (e.key === "Enter") handleSend();
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSend();
+    }
   };
 
   return (
@@ -57,13 +78,14 @@ const Chatbot = () => {
             <IoClose className="chat-close-icon" onClick={toggleChat} />
           </div>
 
-          <div className="chat-body">
+          <div className="chat-body" ref={chatBodyRef}>
             {messages.map((msg, i) => (
               <div key={i} className={`chat-msg ${msg.role}`}>
                 {msg.content}
               </div>
             ))}
 
+            {/* typing animation */}
             {isTyping && (
               <div className="chat-msg bot typing-indicator">
                 <span className="dot"></span>
@@ -80,13 +102,17 @@ const Chatbot = () => {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyPress}
+              disabled={isTyping} // disable during response
             />
-            <button onClick={handleSend}>Send</button>
+            <button onClick={handleSend} disabled={isTyping || !input.trim()}>
+              Send
+            </button>
           </div>
         </div>
       )}
 
-     <button
+      {/* Floating chatbot button */}
+      <button
         className={`chatbot-button ${isOpen ? "chat-open" : ""}`}
         onClick={toggleChat}
       >

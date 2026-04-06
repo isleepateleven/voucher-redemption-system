@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+
 const {
   getUserById,
   getAllUsers,
@@ -8,26 +9,23 @@ const {
 } = require("../controllers/userController");
 
 const firebaseAuth = require("../middleware/firebaseAuth");
-const passportAuth = require("../middleware/passportAuth");
+const adminAuth = require("../middleware/adminAuth");
 
-// Public routes
+// Public: create/sync user after Firebase login
 router.post("/", createUser);
-router.get("/", getAllUsers);
 
-// Firebase-protected route
-router.get("/firebase-profile", firebaseAuth, (req, res) => {
-  res.json({ message: "Welcome Firebase user", user: req.user });
-});
-
-// Passport-protected route
-router.get("/jwt-profile", passportAuth, (req, res) => {
-  res.json({ message: "Welcome JWT user", user: req.user });
-});
-
-// ✅ FIXED: Use Firebase auth for profile update
+// Protected: update current user's profile
 router.put("/me", firebaseAuth, updateUserProfile);
 
-// Get a single user by UID
-router.get("/:uid", getUserById);
+// Protected: get current user's profile
+router.get("/:uid", firebaseAuth, (req, res, next) => {
+  if (req.user.uid !== req.params.uid) {
+    return res.status(403).json({ message: "Forbidden" });
+  }
+  next();
+}, getUserById);
+
+// Protected: Get all users (admin only)
+router.get("/", firebaseAuth, adminAuth, getAllUsers);
 
 module.exports = router;

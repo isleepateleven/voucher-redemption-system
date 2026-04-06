@@ -35,11 +35,16 @@ const Analytics = () => {
 
   useEffect(() => {
     const fetchAnalytics = async () => {
-      const { top5, trend, byCategory } = await getAnalyticsData();
-      setTopVouchers(top5);
-      setTrendData(trend);
-      setCategoryData(byCategory);
+      try {
+        const { top5, trend, byCategory } = await getAnalyticsData();
+        setTopVouchers(top5);
+        setTrendData(trend);
+        setCategoryData(byCategory);
+      } catch (err) {
+        console.error("Error loading analytics", err);
+      }
     };
+
     fetchAnalytics();
   }, []);
 
@@ -60,7 +65,7 @@ const Analytics = () => {
       </div>
 
       <div className="chart-section">
-        <h3>Redemption Trends (Daily)</h3>
+        <h3>Redemption Trends (Last 7 days)</h3>
         <div className="chart-container">
           <ResponsiveContainer width="100%" height={320}>
             <LineChart data={trendData}>

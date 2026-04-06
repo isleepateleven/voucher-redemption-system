@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+
 import Navbar from "../components/Navbar";
 import VoucherManagement from "./tabs/VoucherManagement";
 import UserManagement from "./tabs/UserManagement";
@@ -20,12 +21,14 @@ const AdminDashboard = () => {
           >
             Vouchers
           </button>
+
           <button
             className={`tab-button ${activeTab === "users" ? "active" : ""}`}
             onClick={() => setActiveTab("users")}
           >
             Users
           </button>
+          
           <button
             className={`tab-button ${activeTab === "analytics" ? "active" : ""}`}
             onClick={() => setActiveTab("analytics")}

@@ -1,46 +1,50 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
-import Navbar from "../components/Navbar";
+
 import jsPDF from "jspdf";
 import QRCode from "qrcode";
+import Navbar from "../components/Navbar";
 import { PiDownloadSimpleBold } from "react-icons/pi";
+
+import { fetchRedeemedHistory } from "../services/historyService";
 import "./Redeemed.css";
 
 const Redeemed = () => {
   const { user } = useAuth();
+
   const [redeemed, setRedeemed] = useState([]);
 
+  // Load redeemed voucher history for current user
   useEffect(() => {
     if (!user?.uid) return;
 
-    const fetchRedeemed = async () => {
+    const loadRedeemedHistory = async () => {
       try {
-        const res = await fetch(`http://localhost:5001/api/history/${user.uid}/redeemed`);
-        const data = await res.json();
+        const data = await fetchRedeemedHistory(user.uid);
         setRedeemed(data);
       } catch (err) {
         console.error("Error fetching redeemed vouchers:", err);
       }
     };
 
-    fetchRedeemed();
+    loadRedeemedHistory();
   }, [user]);
 
+  // Download one redeemed voucher as PDF with QR code
   const downloadVoucher = async (item) => {
     const doc = new jsPDF();
     const title = item.voucher_id?.title || "Voucher";
-    const code = item._id.slice(-8).toUpperCase();
+    const code = item.qrUnitId.slice(-8).toUpperCase();
     const date = new Date(item.completed_date).toLocaleDateString();
     const filename =
       `${title.replace(/\s+/g, "_").toLowerCase()}_redeemed_${new Date(item.completed_date).toISOString().split("T")[0]}.pdf`;
 
-    // Generate QR code (can be changed to a full redemption URL if needed)
-    const qrData = await QRCode.toDataURL(`voucher:${item._id}`);
+    // Generate unique QR code per redeemed unit
+    const qrData = await QRCode.toDataURL(`voucher:${item.qrUnitId}`);
 
     // Draw content
     doc.setFontSize(16);
     doc.text(title, 20, 30);
-
     doc.setFontSize(12);
     doc.text(`Voucher Code: ${code}`, 20, 45);
     doc.text(`Redeemed Date: ${date}`, 20, 55);
@@ -49,16 +53,18 @@ const Redeemed = () => {
     const terms = item.voucher_id?.terms_and_conditions || "N/A";
     const wrappedText = doc.splitTextToSize(terms, 170);
     doc.text(wrappedText, 20, 80);
-
-    // Add QR code to right side
     doc.addImage(qrData, "PNG", 145, 20, 40, 40);
 
     doc.save(filename);
   };
 
-  // Flatten based on quantity
-  const flattened = redeemed.flatMap(item =>
-    Array(item.quantity).fill({ ...item, quantity: 1 })
+  // Expand quantity so each voucher unit gets its own unique QR id
+  const flattened = redeemed.flatMap((item) =>
+    Array.from({ length: item.quantity }, (_, index) => ({
+      ...item,
+      quantity: 1,
+      qrUnitId: `${item._id}-${index + 1}`,
+    }))
   );
 
   return (

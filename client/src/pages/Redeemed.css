@@ -69,6 +69,9 @@
   font-size: 1rem;
   font-weight: 600;
   color: #222;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .redeemed-date {

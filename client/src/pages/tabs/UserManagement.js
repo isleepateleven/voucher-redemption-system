@@ -1,11 +1,13 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useToast } from "../../context/ToastContext";
+
 import { getAllUsers } from "../../services/userService";
 import "./UserManagement.css";
 
 const UserManagement = () => {
-  const [users, setUsers] = useState([]);
   const { showToast } = useToast();
+
+  const [users, setUsers] = useState([]);
 
   const loadUsers = useCallback(async () => {
     try {

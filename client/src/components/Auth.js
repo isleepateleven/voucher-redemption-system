@@ -1,14 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signInWithPopup,
+  createUserWithEmailAndPassword, // Firebase register
+  signInWithEmailAndPassword,     // Firebase login
+  signInWithPopup,                // Google login
 } from "firebase/auth";
 import { auth, googleProvider } from "../firebase";
-// import { AuthContext } from "../context/AuthContext";
 import { useToast } from "../context/ToastContext";
-
 import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
 import { Button } from "primereact/button";
@@ -18,88 +16,127 @@ import "./Auth.css";
 
 const Auth = () => {
   const { showToast } = useToast();
-  // const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  // toggle between login mode and register mode 
   const [isRegister, setIsRegister] = useState(false);
+
+  // form inputs
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const navigate = useNavigate();
 
-  const handleAuth = async (e) => {
-    e.preventDefault();
-
-    if (isRegister && password !== confirmPassword) {
+  // show Firebase auth errors 
+  const showAuthError = (err) => {
+    if (err.code === "auth/email-already-in-use") {
       showToast({
         severity: "warn",
-        summary: "Password Mismatch",
-        detail: "Passwords do not match.",
+        summary: "Email Exists",
+        detail: "Try logging in instead.",
       });
       return;
     }
 
-    try {
-      if (isRegister) {
+    if (err.code === "auth/invalid-email") {
+      showToast({
+        severity: "error",
+        summary: "Invalid Email",
+        detail: "Please enter a valid email address.",
+      });
+      return;
+    }
+
+    if (err.code === "auth/weak-password") {
+      showToast({
+        severity: "warn",
+        summary: "Weak Password",
+        detail: "Password should be at least 6 characters.",
+      });
+      return;
+    }
+
+    if (
+      err.code === "auth/user-not-found" ||
+      err.code === "auth/wrong-password" ||
+      err.code === "auth/invalid-credential"
+    ) {
+      showToast({
+        severity: "error",
+        summary: "Invalid Credentials",
+        detail: "Incorrect email or password.",
+      });
+      return;
+    }
+
+    showToast({
+      severity: "error",
+      summary: "Authentication Error",
+      detail: err.message,
+    });
+  };
+
+  const handleAuth = async (e) => {
+    e.preventDefault();
+
+    // register flow
+    if (isRegister) {
+      // check confirm password only in register mode
+      if (password !== confirmPassword) {
+        showToast({
+          severity: "warn",
+          summary: "Password Mismatch",
+          detail: "Passwords do not match.",
+        });
+        return;
+      }
+
+      try {
+        // create new Firebase account
         await createUserWithEmailAndPassword(auth, email, password);
+
         showToast({
           severity: "success",
           summary: "Account Created",
           detail: "Welcome to VoucherBank!",
         });
-      } else {
-        await signInWithEmailAndPassword(auth, email, password);
-        showToast({
-          severity: "success",
-          summary: "Login Successful",
-          detail: "Welcome back!",
-        });
+
+        navigate("/home");
+      } catch (err) {
+        showAuthError(err);
       }
+
+      return;
+    }
+
+    // login flow
+    try {
+      // sign in existing Firebase user
+      await signInWithEmailAndPassword(auth, email, password);
+
+      showToast({
+        severity: "success",
+        summary: "Login Successful",
+        detail: "Welcome back!",
+      });
+
       navigate("/home");
     } catch (err) {
-      if (err.code === "auth/email-already-in-use") {
-        showToast({
-          severity: "warn",
-          summary: "Email Exists",
-          detail: "Try logging in instead.",
-        });
-      } else if (err.code === "auth/invalid-email") {
-        showToast({
-          severity: "error",
-          summary: "Invalid Email",
-          detail: "Please enter a valid email address.",
-        });
-      } else if (err.code === "auth/weak-password") {
-        showToast({
-          severity: "warn",
-          summary: "Weak Password",
-          detail: "Password should be at least 6 characters.",
-        });
-      } else if (
-        err.code === "auth/user-not-found" ||
-        err.code === "auth/wrong-password"
-      ) {
-        showToast({
-          severity: "error",
-          summary: "Invalid Credentials",
-          detail: "Incorrect email or password.",
-        });
-      } else {
-        showToast({
-          severity: "error",
-          summary: "Authentication Error",
-          detail: err.message,
-        });
-      }
+      showAuthError(err);
     }
   };
 
+  // Google Sign-In flow
   const handleGoogleSignIn = async () => {
     try {
+      // sign in with Google popup
       await signInWithPopup(auth, googleProvider);
+
       showToast({
         severity: "success",
         summary: "Google Sign-In",
         detail: "Welcome!",
       });
+
       navigate("/home");
     } catch (err) {
       showToast({

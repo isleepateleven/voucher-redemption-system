@@ -89,21 +89,6 @@ body {
   padding: 0;
 }
 
-.auth-google {
-  background: #f1edf7;
-  color: #111;
-  width: 100%;
-  padding: 0.75rem;
-  border-radius: 9999px;
-  font-size: 0.9rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.5rem;
-}
-
 .google-btn {
   background-color: #ffffff;
   color: #000;

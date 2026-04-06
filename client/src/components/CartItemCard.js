@@ -9,12 +9,15 @@ const CartItemCard = ({ item, onInc, onDec, onDelete }) => {
   return (
     <div className="cart-item">
       <span className="voucher-name">{item.voucher_id?.title || "Unknown"}</span>
+
       <div className="quantity-controls">
         <button onClick={() => onDec(item)}>-</button>
         <span>{quantity}</span>
         <button onClick={() => onInc(item)}>+</button>
       </div>
+
       <span className="points">{quantity * points} points </span>
+      
       <FaTrash className="delete-icon" onClick={() => onDelete(item)} />
     </div>
   );

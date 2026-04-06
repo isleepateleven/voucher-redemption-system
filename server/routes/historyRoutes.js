@@ -5,6 +5,6 @@ const {
   getRedeemedVouchers,
 } = require("../controllers/historyController");
 
-router.get("/:uid/redeemed", getRedeemedVouchers);
+router.get("/:uid", getRedeemedVouchers);
 
 module.exports = router;

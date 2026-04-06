@@ -1,5 +1,6 @@
 const User = require("../models/User");
 
+// Create user in MongoDB if not exists
 const createUser = async (req, res) => {
   const { uid, email } = req.body;
   try {
@@ -17,6 +18,7 @@ const createUser = async (req, res) => {
   }
 };
 
+// Get a single user by UID from MongoDB
 const getUserById = async (req, res) => {
   try {
     const user = await User.findOne({ uid: req.params.uid });
@@ -30,6 +32,7 @@ const getUserById = async (req, res) => {
   }
 };
 
+// Get all users (admin use)
 const getAllUsers = async (req, res) => {
   try {
     const users = await User.find({});
@@ -42,6 +45,7 @@ const getAllUsers = async (req, res) => {
   }
 };
 
+// Update current logged-in user's profile
 const updateUserProfile = async (req, res) => {
   const uid = req.user.uid; // from firebaseAuth middleware
   const { username, phoneNumber, address, profileImage } = req.body;

@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+
+import { getAllCategories } from "../services/categoryService";
 import "./VoucherForm.css";
 
 const VoucherForm = ({ initialData, onSave, onCancel }) => {
@@ -17,25 +19,19 @@ const VoucherForm = ({ initialData, onSave, onCancel }) => {
       setTitle(initialData.title || "");
       setDescription(initialData.description || "");
       setImage(initialData.image || "");
-      setPoints(initialData.points || "");
+      setPoints(initialData.points ?? "");
       setTerms(initialData.terms_and_conditions || "");
-      setLimit(initialData.limit || "");
+      setLimit(initialData.limit ?? "");
       setExpiryDate(initialData.expiryDate ? initialData.expiryDate.slice(0, 10) : "");
-
-      if (initialData.category_id && typeof initialData.category_id === "object") {
-        setCategory(initialData.category_id._id);
-      } else {
-        setCategory(initialData.category_id || "");
-      }
+      setCategory(initialData.category_id?._id || "");
     }
   }, [initialData]);
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const res = await fetch("http://localhost:5001/api/categories");
-        const data = await res.json();
-        setCategories(data);
+        const res = await getAllCategories();
+        setCategories(res);
       } catch (err) {
         console.error("Failed to load categories", err);
       }
@@ -79,7 +75,7 @@ const VoucherForm = ({ initialData, onSave, onCancel }) => {
           <div className="form-row">
             <div className="form-col">
               <label>Points</label>
-              <input type="number" value={points} onChange={(e) => setPoints(e.target.value)} required />
+              <input type="number" min="0" value={points} onChange={(e) => setPoints(e.target.value)} required />
             </div>
             <div className="form-col">
               <label>Category</label>
@@ -100,7 +96,7 @@ const VoucherForm = ({ initialData, onSave, onCancel }) => {
           <div className="form-row">
             <div className="form-col">
               <label>Limit</label>
-              <input type="number" value={limit} onChange={(e) => setLimit(e.target.value)} required />
+              <input type="number" min="0" value={limit} onChange={(e) => setLimit(e.target.value)} required />
             </div>
             <div className="form-col">
               <label>Expiry Date</label>

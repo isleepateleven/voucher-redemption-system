@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { useAuth } from "../context/AuthContext";
-import { updateUserProfile } from "../services/userService";
 import { useToast } from "../context/ToastContext";
+
 import Navbar from "../components/Navbar";
+
+import { updateUserProfile } from "../services/userService";
 import "./Profile.css";
 
 const Profile = () => {
@@ -18,6 +20,7 @@ const Profile = () => {
     profileImage: "",
   });
 
+  // Load user profile into form when page loads or userProfile changes
   useEffect(() => {
     if (userProfile) {
       setFormData({
@@ -30,13 +33,16 @@ const Profile = () => {
     }
   }, [userProfile]);
 
+  // Handle input changes (username, phone, address)
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  // Handle image upload and convert to base64 for preview
   const handleImageChange = (e) => {
     const file = e.target.files[0];
+
     if (file && ["image/jpeg", "image/png", "image/jpg"].includes(file.type)) {
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -52,14 +58,25 @@ const Profile = () => {
     }
   };
 
+  // Submit updated profile to backend
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const updated = await updateUserProfile(userProfile.uid, formData);
+      const updated = await updateUserProfile(formData); 
+
       setUserProfile(updated);
-      showToast({ severity: "success", summary: "Success", detail: "Profile updated." });
+
+      showToast({
+        severity: "success",
+        summary: "Success",
+        detail: "Profile updated.",
+      });
     } catch (error) {
-      showToast({ severity: "error", summary: "Error", detail: "Failed to update profile." });
+      showToast({
+        severity: "error",
+        summary: "Error",
+        detail: "Failed to update profile.",
+      });
     }
   };
 
@@ -68,6 +85,7 @@ const Profile = () => {
       <Navbar />
       <div className="profile-page">
         <h2 className="profile-title">Profile</h2>
+
         <form className="profile-form" onSubmit={handleSubmit}>
           <div className="profile-avatar-wrapper">
             {formData.profileImage ? (
@@ -122,6 +140,7 @@ const Profile = () => {
 
           <button type="submit" className="save-button">Save</button>
         </form>
+        
       </div>
     </>
   );

@@ -1,49 +1,63 @@
-import React, { useEffect, useState } from "react";
-import {
-  fetchVouchers,
-  createVoucher,
-  updateVoucher,
-} from "../../services/voucherService";
+import React, { useEffect, useState, useCallback } from "react";
+import { useToast } from "../../context/ToastContext";
+
 import AdminVoucherCard from "../../components/AdminVoucherCard";
 import VoucherForm from "../../components/VoucherForm";
-import { useToast } from "../../context/ToastContext";
+
+import {
+  getAllVouchers,
+  createVoucher,
+  updateVoucher
+} from "../../services/voucherService";
 import "./VoucherManagement.css";
 
 const VoucherManagement = () => {
+  const { showToast } = useToast();
+
   const [vouchers, setVouchers] = useState([]);
   const [editingVoucher, setEditingVoucher] = useState(null);
   const [showForm, setShowForm] = useState(false);
-  const { showToast } = useToast();
 
-  useEffect(() => {
-    loadVouchers();
-  }, []);
-
-  const loadVouchers = async () => {
+  // Load all vouchers
+  // useCallback keeps a function stable across renders to prevent unnecessary re-runs
+  const loadVouchers = useCallback(async () => {
     try {
-      const data = await fetchVouchers();
+      const data = await getAllVouchers();
       setVouchers(data);
     } catch (err) {
       console.error("Error fetching vouchers", err);
       setVouchers([]);
+      showToast({
+        severity: "error",
+        summary: "Error",
+        detail: "Failed to load vouchers.",
+      });
     }
-  };
+  }, [showToast]);
 
+  useEffect(() => {
+    loadVouchers();
+  }, [loadVouchers]);
+
+  // Open form for new voucher
   const handleAdd = () => {
     setEditingVoucher(null);
     setShowForm(true);
   };
 
+  // Open form for editing voucher
   const handleEdit = (voucher) => {
     setEditingVoucher(voucher);
     setShowForm(true);
   };
 
+  // Close form
   const handleCancel = () => {
     setEditingVoucher(null);
     setShowForm(false);
   };
 
+  // Save new or edited voucher
   const handleSave = async (formData) => {
     try {
       if (editingVoucher) {
@@ -69,7 +83,11 @@ const VoucherManagement = () => {
 
       <div className="voucher-grid">
         {vouchers.map((v) => (
-          <AdminVoucherCard key={v._id} voucher={v} onEdit={() => handleEdit(v)} onDeleted={loadVouchers} />
+          <AdminVoucherCard 
+            key={v._id} 
+            voucher={v} 
+            onEdit={() => handleEdit(v)} 
+            onDeleted={loadVouchers} />
         ))}
       </div>
 

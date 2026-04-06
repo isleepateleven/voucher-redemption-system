@@ -1,7 +1,6 @@
 const dotenv = require('dotenv');
 const express = require('express');
 const cors = require('cors');
-const passport = require('passport');
 const connectDB = require('./config/db');
 
 // Routes
@@ -24,15 +23,9 @@ const PORT = process.env.PORT || 5001;
 // Connect to DB
 connectDB();
 
-// Passport config
-require('./utils/passport')(passport); 
-
 // Middleware
 app.use(cors());
 app.use(express.json());
-
-// Initialize Passport middleware
-app.use(passport.initialize());
 
 // Routes
 app.use('/api/categories', categoryRoutes);
@@ -43,11 +36,6 @@ app.use('/api/history', historyRoutes);
 app.use("/api/redeem", redeemRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/analytics", analyticsRoutes);
-
-// Optional: test route
-app.get('/api/jwt-test', passport.authenticate('jwt', { session: false }), (req, res) => {
-  res.json({ message: 'JWT auth successful', user: req.user });
-});
 
 // Start server
 app.listen(PORT, () => {

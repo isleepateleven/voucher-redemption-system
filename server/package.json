@@ -20,6 +20,7 @@
     "firebase-admin": "^13.4.0",
     "jsonwebtoken": "^9.0.2",
     "jspdf": "^3.0.1",
+    "mongodb": "^7.1.0",
     "mongoose": "^8.16.5",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1"

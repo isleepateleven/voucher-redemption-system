@@ -3,13 +3,8 @@ import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { confirmDialog } from "primereact/confirmdialog";
 import { Menu } from "primereact/menu";
-import {
-  PiSignOut,
-  PiShoppingCartSimpleBold,
-  PiWalletBold,
-  PiGearBold,
-} from "react-icons/pi";
-import { FaUserCircle } from "react-icons/fa";
+import { PiShoppingCartSimpleBold, PiWalletBold, PiGearBold } from "react-icons/pi";
+import { FaUserCircle, FaSignOutAlt } from "react-icons/fa";
 import "./Navbar.css";
 
 const Navbar = () => {
@@ -39,7 +34,7 @@ const Navbar = () => {
     },
     {
       label: "Logout",
-      icon: <PiSignOut />,
+      icon: <FaSignOutAlt />,
       command: handleLogoutConfirm,
     },
   ];

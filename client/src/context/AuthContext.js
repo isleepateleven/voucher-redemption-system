@@ -1,39 +1,36 @@
-import React, { useContext, createContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase";
+import { syncUserWithBackend, getUserById } from "../services/userService";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);             // Firebase user
-  const [userProfile, setUserProfile] = useState(null); // MongoDB user
+  // Firebase login user
+  const [user, setUser] = useState(null);
+
+  // Full user profile from MongoDB
+  const [userProfile, setUserProfile] = useState(null);
 
   useEffect(() => {
+    // Listen to Firebase login/logout changes
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
+        // Save Firebase user in state
         setUser(currentUser);
 
         try {
+          // Get Firebase token and store it in browser
           const token = await currentUser.getIdToken();
-          localStorage.setItem("token", token); // ✅ Store Firebase token
+          localStorage.setItem("token", token);
 
-          // Sync user to MongoDB if not exists
-          await fetch("http://localhost:5001/api/users", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`, // not required for POST /users but safe
-            },
-            body: JSON.stringify({
-              uid: currentUser.uid,
-              email: currentUser.email,
-            }),
-          });
+          // Ensure user exists in backend (create if new, skip if existing)
+          await syncUserWithBackend(currentUser, token);
 
-          // Fetch MongoDB profile with user data
-          const res = await fetch(`http://localhost:5001/api/users/${currentUser.uid}`);
-          const data = await res.json();
-          setUserProfile(data);
+          // Fetch full user profile from backend
+          const profile = await getUserById(currentUser.uid);
+          setUserProfile(profile);
+          
         } catch (err) {
           console.error("Auth sync/fetch failed:", err);
         }
@@ -45,6 +42,7 @@ export const AuthProvider = ({ children }) => {
       }
     });
 
+    // Stop listener when component unmounts
     return () => unsubscribe();
   }, []);
 
