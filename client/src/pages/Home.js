@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
-import { useToast } from "../context/ToastContext";
+// import { useToast } from "../context/ToastContext";
 
 import Navbar from "../components/Navbar";
 import VoucherCard from "../components/VoucherCard";
@@ -12,7 +12,7 @@ import "./Home.css";
 
 const Home = () => {
   const { user } = useAuth();
-  const { showToast } = useToast();
+  // const { showToast } = useToast();
 
   const [vouchers, setVouchers] = useState([]);
   const [categories, setCategories] = useState([]);

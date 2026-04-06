@@ -5,7 +5,7 @@ import { Toast } from "primereact/toast";
 const ToastContext = createContext();
 
 export const ToastProvider = ({ children }) => {
-  {/* toastRef is a reference object that gives us access to the Toast component so we can control it (e.g. show messages). */}
+  // toastRef is a reference object that gives us access to the Toast component so we can control it (e.g. show messages).
   const toastRef = useRef(null);
 
    // function to trigger toast popup

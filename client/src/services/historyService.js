@@ -1,4 +1,5 @@
-const API = "http://localhost:5001/api/history";
+// const API = "http://localhost:5001/api/history";
+const API = `${process.env.REACT_APP_API_URL}/history`;
 
 // Get redeemed voucher history
 export const fetchRedeemedHistory = async (uid) => {

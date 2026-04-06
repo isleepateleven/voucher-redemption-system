@@ -1,4 +1,5 @@
-const API = "http://localhost:5001/api/vouchers";
+// const API = "http://localhost:5001/api/vouchers";
+const API = `${process.env.REACT_APP_API_URL}/vouchers`;
 
 // Get Firebase token from localStorage
 const getToken = () => {

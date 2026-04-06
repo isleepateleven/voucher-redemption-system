@@ -1,4 +1,5 @@
-const API = "http://localhost:5001/api/categories";
+// const API = "http://localhost:5001/api/categories";
+const API = `${process.env.REACT_APP_API_URL}/categories`;
 
 // Get all categories (public)
 export const getAllCategories = async () => {

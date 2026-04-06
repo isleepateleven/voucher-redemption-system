@@ -1,4 +1,5 @@
-const API = "http://localhost:5001/api/chat";
+// const API = "http://localhost:5001/api/chat";
+const API = `${process.env.REACT_APP_API_URL}/chat`;
 
 // Send user message to chatbot backend and get reply
 export const sendMessage = async (message) => {

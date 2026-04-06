@@ -1,4 +1,5 @@
-const API = "http://localhost:5001/api/cart";
+// const API = "http://localhost:5001/api/cart";
+const API = `${process.env.REACT_APP_API_URL}/cart`;
 
 // Get current user's cart
 export const fetchCart = (uid) =>
