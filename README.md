@@ -6,11 +6,15 @@
 + [How It Works](#how_it_works)
 + [Built Using](#built_using)
 
+---
+
 ## About <a name="about"></a>
 
 VoucherBank is a full-stack MERN web application that simulates a customer loyalty platform where points can be redeemed for vouchers.
 
 It allows users to browse vouchers by category, manage selections through a cart system, and redeem rewards using points, while administrators manage vouchers and monitor redemption activity through an analytics dashboard.
+
+---
 
 ## Getting Started <a name="getting_started"></a>
 
@@ -21,7 +25,11 @@ It allows users to browse vouchers by category, manage selections through a cart
 - MongoDB Atlas account (https://www.mongodb.com/atlas)
 - Firebase project (https://console.firebase.google.com)
 
-#### Installing
+
+You can run the application using either a manual setup or Docker.
+
+
+#### Manual Setup
 
 Clone the repository:
 
@@ -71,6 +79,28 @@ npm start
 
 Open the application in your browser and log in.
 
+#### Docker Setup
+
+Alternatively, run the application using Docker:
+
+```bash
+docker-compose up --build
+```
+
+Frontend:  
+http://localhost:3000  
+
+Backend:  
+http://localhost:5001  
+
+To stop the containers:
+
+```bash
+docker-compose down
+```
+
+---
+
 ## How It Works <a name="how_it_works"></a>
 
 User:
@@ -88,6 +118,8 @@ Administrator:
   - Create, edit, and delete vouchers  
   - Manage voucher limits and expiry  
   - Monitor redemption activity through analytics  
+
+---
 
 ## Built Using <a name="built_using"></a>
 

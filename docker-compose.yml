@@ -1,0 +1,18 @@
+services:
+  server:
+    build: ./server
+    container_name: voucher-redemption-server
+    ports:
+      - "5001:5001"
+    env_file:
+      - ./server/.env
+
+  client:
+    build: ./client
+    container_name: voucher-redemption-client
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./client/.env.docker
+    depends_on:
+      - server
