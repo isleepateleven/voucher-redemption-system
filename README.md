@@ -2,11 +2,11 @@
 
 ## Table of Contents
 + [About](#about)
++ [Demo](#demo)
 + [Getting Started](#getting_started)
 + [How It Works](#how_it_works)
 + [Built Using](#built_using)
 
----
 
 ## About <a name="about"></a>
 
@@ -14,7 +14,9 @@ VoucherBank is a full-stack MERN web application that simulates a customer loyal
 
 It allows users to browse vouchers by category, manage selections through a cart system, and redeem rewards using points, while administrators manage vouchers and monitor redemption activity through an analytics dashboard.
 
----
+## Demo  <a name="demo"></a>
+
+https://voucher-redemption.netlify.app
 
 ## Getting Started <a name="getting_started"></a>
 
@@ -99,7 +101,6 @@ To stop the containers:
 docker-compose down
 ```
 
----
 
 ## How It Works <a name="how_it_works"></a>
 
@@ -119,7 +120,6 @@ Administrator:
   - Manage voucher limits and expiry  
   - Monitor redemption activity through analytics  
 
----
 
 ## Built Using <a name="built_using"></a>
 
