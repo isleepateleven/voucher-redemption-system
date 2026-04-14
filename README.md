@@ -20,7 +20,7 @@ https://voucher-redemption.netlify.app
 
 ## Getting Started <a name="getting_started"></a>
 
-#### Prerequisites
+### Prerequisites
 
 - Node.js (https://nodejs.org)
 - npm (comes with Node.js)
@@ -31,7 +31,7 @@ https://voucher-redemption.netlify.app
 You can run the application using either a manual setup or Docker.
 
 
-#### Manual Setup
+### Manual Setup
 
 Clone the repository:
 
@@ -81,7 +81,8 @@ npm start
 
 Open the application in your browser and log in.
 
-#### Docker Setup
+
+### Docker Setup
 
 Alternatively, run the application using Docker:
 
