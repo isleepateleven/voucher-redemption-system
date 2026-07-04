@@ -75,6 +75,8 @@ const Auth = () => {
     });
   };
 
+
+  // EMAIL AND PASSWORD LOGIN/REGISTER FLOW
   const handleAuth = async (e) => {
     e.preventDefault();
 
@@ -125,7 +127,8 @@ const Auth = () => {
     }
   };
 
-  // Google Sign-In flow
+
+  // GOOGLE SIGN IN FLOW 
   const handleGoogleSignIn = async () => {
     try {
       // sign in with Google popup
@@ -146,6 +149,7 @@ const Auth = () => {
       });
     }
   };
+
 
   return (
     <div className="auth-wrapper">
