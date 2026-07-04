@@ -154,6 +154,7 @@ const Auth = () => {
   return (
     <div className="auth-wrapper">
       <div className="auth-box">
+        {/* <h1 className="text-red-500">Test Tailwind</h1> */}
         <h2 className="auth-title">Welcome to VoucherBank</h2>
 
         <form onSubmit={handleAuth} className="auth-form">
