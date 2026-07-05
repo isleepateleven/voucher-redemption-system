@@ -9,7 +9,7 @@ import Auth from "./components/Auth";
 import Home from "./pages/Home";
 import Cart from "./pages/Cart";
 import Redeemed from "./pages/Redeemed";
-import AdminRoute from "./components/AdminRoute";
+import AdminRoute from "./routes/AdminRoute";
 import AdminDashboard from "./pages/AdminDashboard";
 import Profile from "./pages/Profile";
 import Chatbot from "./components/Chatbot"; 
