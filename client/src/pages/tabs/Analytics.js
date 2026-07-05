@@ -12,13 +12,20 @@ import {
   PieChart,
   Pie,
   Cell,
-  Legend
+  Legend,
 } from "recharts";
-import "./Analytics.css";
 
 const COLORS = [
-  "#d96c32", "#c44569", "#555555", "#3778c2", "#5a7d1c",
-  "#5d54a4", "#9c1f1f", "#157a6e", "#6c3483", "#b9770e"
+  "#d96c32",
+  "#c44569",
+  "#555555",
+  "#3778c2",
+  "#5a7d1c",
+  "#5d54a4",
+  "#9c1f1f",
+  "#157a6e",
+  "#6c3483",
+  "#b9770e",
 ];
 
 const Analytics = () => {
@@ -49,10 +56,13 @@ const Analytics = () => {
   }, []);
 
   return (
-    <div className="analytics">
-      <div className="chart-section">
-        <h3>Top 5 Redeemed Vouchers</h3>
-        <div className="chart-container">
+    <div className="flex flex-col items-center gap-8 py-6">
+      <div className="w-full max-w-[1000px] rounded-xl bg-white px-4 py-4 shadow-[0_4px_12px_rgba(0,0,0,0.06)]">
+        <h3 className="mb-6 ml-4 mt-4 text-base font-semibold text-[#333]">
+          Top 5 Redeemed Vouchers
+        </h3>
+
+        <div className="w-[90%]">
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={topVouchers}>
               <XAxis dataKey="title" tick={{ fontSize: 12 }} />
@@ -64,9 +74,12 @@ const Analytics = () => {
         </div>
       </div>
 
-      <div className="chart-section">
-        <h3>Redemption Trends (Last 7 days)</h3>
-        <div className="chart-container">
+      <div className="w-full max-w-[1000px] rounded-xl bg-white px-4 py-4 shadow-[0_4px_12px_rgba(0,0,0,0.06)]">
+        <h3 className="mb-6 ml-4 mt-4 text-base font-semibold text-[#333]">
+          Redemption Trends (Last 7 days)
+        </h3>
+
+        <div className="w-[90%]">
           <ResponsiveContainer width="100%" height={320}>
             <LineChart data={trendData}>
               <XAxis
@@ -88,9 +101,12 @@ const Analytics = () => {
         </div>
       </div>
 
-      <div className="chart-section">
-        <h3>Redemption by Category</h3>
-        <div className="chart-container">
+      <div className="w-full max-w-[1000px] rounded-xl bg-white px-4 py-4 shadow-[0_4px_12px_rgba(0,0,0,0.06)]">
+        <h3 className="mb-6 ml-4 mt-4 text-base font-semibold text-[#333]">
+          Redemption by Category
+        </h3>
+
+        <div className="w-[90%]">
           <ResponsiveContainer width="100%" height={isMobile ? 400 : 350}>
             <PieChart>
               <Pie
@@ -106,6 +122,7 @@ const Analytics = () => {
                   <Cell key={index} fill={COLORS[index % COLORS.length]} />
                 ))}
               </Pie>
+
               <Legend
                 layout={isMobile ? "horizontal" : "vertical"}
                 align={isMobile ? "center" : "left"}
@@ -117,6 +134,7 @@ const Analytics = () => {
                   lineHeight: "1.2rem",
                 }}
               />
+
               <Tooltip />
             </PieChart>
           </ResponsiveContainer>

@@ -102,7 +102,7 @@ const VoucherModal = ({ voucher, onClose }) => {
 
   const infoTextClass = "mb-2 text-sm leading-[1.4] text-[#444]";
   const modalButtonClass =
-    "flex-1 rounded-full border-none px-5 py-[0.9rem] text-[0.8rem] font-semibold transition-all duration-200";
+    "flex-1 rounded-full border-none px-5 py-[0.9rem] text-sm font-semibold transition-all duration-200";
 
   return (
     <div

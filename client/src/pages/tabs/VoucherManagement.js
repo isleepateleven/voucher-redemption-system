@@ -7,9 +7,8 @@ import VoucherForm from "../../components/VoucherForm";
 import {
   getAllVouchers,
   createVoucher,
-  updateVoucher
+  updateVoucher,
 } from "../../services/voucherService";
-import "./VoucherManagement.css";
 
 const VoucherManagement = () => {
   const { showToast } = useToast();
@@ -62,32 +61,51 @@ const VoucherManagement = () => {
     try {
       if (editingVoucher) {
         await updateVoucher(editingVoucher._id, formData);
-        showToast({ severity: "success", summary: "Updated", detail: "Voucher updated." });
+        showToast({
+          severity: "success",
+          summary: "Updated",
+          detail: "Voucher updated.",
+        });
       } else {
         await createVoucher(formData);
-        showToast({ severity: "success", summary: "Created", detail: "Voucher added." });
+        showToast({
+          severity: "success",
+          summary: "Created",
+          detail: "Voucher added.",
+        });
       }
+
       handleCancel();
       loadVouchers();
     } catch (err) {
       console.error(err);
-      showToast({ severity: "error", summary: "Error", detail: "Could not save." });
+      showToast({
+        severity: "error",
+        summary: "Error",
+        detail: "Could not save.",
+      });
     }
   };
 
   return (
-    <div className="voucher-management">
-      <div className="voucher-header">
-        <button className="add-btn" onClick={handleAdd}>+ Add Voucher</button>
+    <div>
+      <div className="mt-4 mb-2 flex items-center justify-between">
+       <button
+        className="rounded-full bg-[#5e4596] px-5 py-3 text-[0.75rem] font-semibold text-white transition-all duration-200 hover:-translate-y-px hover:bg-[#7e6bcf]"
+        onClick={handleAdd}
+      >
+        + Add Voucher
+      </button>
       </div>
 
-      <div className="voucher-grid">
+      <div className="flex flex-wrap gap-4">
         {vouchers.map((v) => (
-          <AdminVoucherCard 
-            key={v._id} 
-            voucher={v} 
-            onEdit={() => handleEdit(v)} 
-            onDeleted={loadVouchers} />
+          <AdminVoucherCard
+            key={v._id}
+            voucher={v}
+            onEdit={() => handleEdit(v)}
+            onDeleted={loadVouchers}
+          />
         ))}
       </div>
 
