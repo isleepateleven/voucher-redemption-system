@@ -5,7 +5,6 @@ import { confirmDialog } from "primereact/confirmdialog";
 
 import { addToCart } from "../services/cartService";
 import { redeemVoucher } from "../services/redeemService";
-import "./VoucherCard.css";
 
 const VoucherCard = ({ voucher, onClick }) => {
   const { user } = useAuth();
@@ -18,7 +17,7 @@ const VoucherCard = ({ voucher, onClick }) => {
 
   // Add voucher to cart
   const handleAddToCart = async (e) => {
-    e.stopPropagation(); 
+    e.stopPropagation();
 
     if (!user?.uid) {
       showToast({
@@ -98,24 +97,55 @@ const VoucherCard = ({ voucher, onClick }) => {
     });
   };
 
-  return (
-    <div className="voucher-card" onClick={onClick}>
-      <img src={voucher.image} alt={voucher.title} className="voucher-image" />
-      <div className="voucher-details">
-        <h4 className="voucher-title">{voucher.title}</h4>
-        <p className="voucher-description">{voucher.description}</p>
+  const buttonBaseClass =
+    "min-w-[100px] flex-1 rounded-full border-none px-3 py-[0.6rem] text-center text-xs font-semibold transition-all duration-200";
 
-        <div className="voucher-actions">
+  return (
+    <div
+      className="m-2 flex h-[270px] w-[260px] flex-col overflow-hidden rounded-xl bg-white shadow-[0_2px_8px_rgba(0,0,0,0.1)] transition-transform duration-200 hover:-translate-y-1"
+      onClick={onClick}
+    >
+      <img
+        src={voucher.image}
+        alt={voucher.title}
+        className="h-[140px] w-full object-cover"
+      />
+
+      <div className="box-border flex max-w-full flex-1 flex-col px-4 py-3">
+        <h4 className="my-[0.2rem] line-clamp-1 max-w-full break-words text-[16px] font-semibold leading-[1.2] text-[#222]">
+          {voucher.title}
+        </h4>
+
+        <p className="mb-4 line-clamp-2 h-[2.4em] max-w-full overflow-hidden text-xs leading-[1.2] text-[#666]">
+          {voucher.description}
+        </p>
+
+        <div className="mt-auto flex gap-3">
           {isExpired ? (
-            <div className="voucher-button expired-placeholder">Expired</div>
+            <div
+              className={`${buttonBaseClass} cursor-default select-none bg-[#ccc] text-[#666]`}
+            >
+              Expired
+            </div>
           ) : isDepleted ? (
-            <div className="voucher-button expired-placeholder">Out of Stock</div>
+            <div
+              className={`${buttonBaseClass} cursor-default select-none bg-[#ccc] text-[#666]`}
+            >
+              Out of Stock
+            </div>
           ) : (
             <>
-              <button className="voucher-button cart" onClick={handleAddToCart}>
+              <button
+                className={`${buttonBaseClass} cursor-pointer bg-[#f1f1f1] text-[#333] hover:-translate-y-px hover:bg-[#e0e0e0]`}
+                onClick={handleAddToCart}
+              >
                 Add to Cart
               </button>
-              <button className="voucher-button redeem" onClick={confirmRedeem}>
+
+              <button
+                className={`${buttonBaseClass} cursor-pointer bg-[#665290] text-white hover:-translate-y-px hover:bg-[#9986d0]`}
+                onClick={confirmRedeem}
+              >
                 Redeem
               </button>
             </>
