@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signInWithPopup,
+  createUserWithEmailAndPassword, // Firebase register
+  signInWithEmailAndPassword,     // Firebase login
+  signInWithPopup,                // Google login
 } from "firebase/auth";
 import { auth, googleProvider } from "../firebase";
 import { useToast } from "../context/ToastContext";
@@ -16,11 +16,15 @@ const Auth = () => {
   const { showToast } = useToast();
   const navigate = useNavigate();
 
+  // toggle between login mode and register mode 
   const [isRegister, setIsRegister] = useState(false);
+
+  // form inputs
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  // show Firebase auth errors 
   const showAuthError = (err) => {
     if (err.code === "auth/email-already-in-use") {
       showToast({
@@ -69,10 +73,14 @@ const Auth = () => {
     });
   };
 
+
+  // EMAIL AND PASSWORD LOGIN/REGISTER FLOW
   const handleAuth = async (e) => {
     e.preventDefault();
 
+    // register flow
     if (isRegister) {
+      // check confirm password only in register mode
       if (password !== confirmPassword) {
         showToast({
           severity: "warn",
@@ -83,6 +91,7 @@ const Auth = () => {
       }
 
       try {
+        // create new Firebase account
         await createUserWithEmailAndPassword(auth, email, password);
 
         showToast({
@@ -99,7 +108,9 @@ const Auth = () => {
       return;
     }
 
+    // login flow
     try {
+      // sign in existing Firebase user
       await signInWithEmailAndPassword(auth, email, password);
 
       showToast({
@@ -114,8 +125,11 @@ const Auth = () => {
     }
   };
 
+
+   // GOOGLE SIGN IN FLOW 
   const handleGoogleSignIn = async () => {
     try {
+      // sign in with Google popup
       await signInWithPopup(auth, googleProvider);
 
       showToast({

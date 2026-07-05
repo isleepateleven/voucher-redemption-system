@@ -17,6 +17,7 @@ const Home = () => {
   const [points, setPoints] = useState(0);
   const [selectedVoucher, setSelectedVoucher] = useState(null);
 
+  // Load all vouchers and categories
   useEffect(() => {
     const fetchVouchers = async () => {
       try {
@@ -35,6 +36,7 @@ const Home = () => {
     fetchVouchers();
   }, []);
 
+  // Load current user's points
   useEffect(() => {
     const loadUserPoints = async () => {
       if (!user?.uid) return;
@@ -50,6 +52,7 @@ const Home = () => {
     loadUserPoints();
   }, [user]);
 
+  // Filter vouchers by selected category
   const filteredVouchers =
     activeCategory === "All"
       ? vouchers
@@ -70,6 +73,7 @@ const Home = () => {
           </p>
         </div>
 
+        {/* User points */}
         <div className="my-4 flex justify-center">
           <div className="min-w-[220px] rounded-xl bg-white px-8 py-4 text-center shadow-[0_2px_8px_rgba(0,0,0,0.05)]">
             <span className="mb-1 block text-[0.7rem] text-[#888]">
@@ -80,11 +84,12 @@ const Home = () => {
             </span>
           </div>
         </div>
-
+        
+        {/* Category tabs */}
         <div className="mb-2 mt-6 text-base font-semibold text-[#333]">
           Browse by Category
         </div>
-
+        
         <div className="mb-6 mt-4 flex flex-wrap gap-3">
           {categories.map((cat) => (
             <button
@@ -101,6 +106,7 @@ const Home = () => {
           ))}
         </div>
 
+        {/* Vouchers */}
         <div className="mb-2 mt-6 text-base font-semibold text-[#333]">
           {activeCategory === "All"
             ? "All Vouchers"
@@ -116,7 +122,8 @@ const Home = () => {
             />
           ))}
         </div>
-
+        
+        {/* Voucher Details (Voucher Modal) */}
         <VoucherModal
           voucher={selectedVoucher}
           onClose={() => setSelectedVoucher(null)}

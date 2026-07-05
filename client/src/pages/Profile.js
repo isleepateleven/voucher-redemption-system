@@ -6,7 +6,6 @@ import { useToast } from "../context/ToastContext";
 import Navbar from "../components/Navbar";
 
 import { updateUserProfile } from "../services/userService";
-import "./Profile.css";
 
 const Profile = () => {
   const { userProfile, setUserProfile } = useAuth();
@@ -62,7 +61,7 @@ const Profile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const updated = await updateUserProfile(formData); 
+      const updated = await updateUserProfile(formData);
 
       setUserProfile(updated);
 
@@ -80,67 +79,80 @@ const Profile = () => {
     }
   };
 
+  const labelClass = "mt-2 mb-1 text-[0.85rem] font-semibold text-[#444]";
+  const inputClass =
+    "mb-[0.35rem] w-full rounded-md border border-[#ccc] px-3 py-[0.6rem] text-[0.85rem] font-sans";
+
   return (
     <>
       <Navbar />
-      <div className="profile-page">
-        <h2 className="profile-title">Profile</h2>
+      <div className="flex min-h-[calc(100vh-64px)] flex-col items-start bg-[#f7f7fb] px-8 py-4 font-sans">
+        <h2 className="mb-6 mt-2 text-xl font-bold text-[#333]">Profile</h2>
 
-        <form className="profile-form" onSubmit={handleSubmit}>
-          <div className="profile-avatar-wrapper">
+        <form
+          className="flex w-full max-w-[680px] flex-col rounded-xl bg-white p-8 text-[0.85rem] shadow-[0_4px_12px_rgba(0,0,0,0.06)]"
+          onSubmit={handleSubmit}
+        >
+          <div className="mb-4 flex flex-col items-center">
             {formData.profileImage ? (
               <img
                 src={formData.profileImage}
                 alt="Profile"
-                className="profile-avatar"
+                className="mb-3 h-[100px] w-[100px] rounded-full border-2 border-[#ccc] object-cover"
               />
             ) : (
-              <FaUserCircle className="profile-avatar-icon" />
+              <FaUserCircle className="text-[100px] text-[#ccc]" />
             )}
+
             <input
               type="file"
               accept="image/jpeg,image/png,image/jpg"
               onChange={handleImageChange}
+              className="mb-1 block text-center text-[0.85rem] file:mb-2 file:cursor-pointer file:rounded-md file:border file:border-[#ccc] file:bg-[#eee] file:px-3 file:py-[0.3rem] file:transition-colors hover:file:bg-[#ddd]"
             />
           </div>
 
-          <label>Email</label>
+          <label className={labelClass}>Email</label>
           <input
             type="email"
             value={formData.email}
-            className="profile-input"
+            className={`${inputClass} bg-[#f0f0f0] text-[#888]`}
             disabled
           />
 
-          <label>Username</label>
+          <label className={labelClass}>Username</label>
           <input
             type="text"
             name="username"
             value={formData.username}
-            className="profile-input"
+            className={inputClass}
             onChange={handleChange}
           />
 
-          <label>Phone Number</label>
+          <label className={labelClass}>Phone Number</label>
           <input
             type="text"
             name="phoneNumber"
             value={formData.phoneNumber}
-            className="profile-input"
+            className={inputClass}
             onChange={handleChange}
           />
 
-          <label>Address</label>
+          <label className={labelClass}>Address</label>
           <textarea
             name="address"
             value={formData.address}
-            className="profile-textarea"
+            className={`${inputClass} min-h-[80px] resize-y`}
             onChange={handleChange}
           />
 
-          <button type="submit" className="save-button">Save</button>
+          <button
+            type="submit"
+            className="mt-6 self-end rounded-full border-none bg-[#5e4596] px-6 py-2 text-[0.85rem] font-semibold text-white transition-colors hover:bg-[#7e6bcf]"
+          >
+            Save
+          </button>
         </form>
-        
       </div>
     </>
   );
