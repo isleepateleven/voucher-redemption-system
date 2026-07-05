@@ -7,9 +7,8 @@ import { confirmDialog } from "primereact/confirmdialog";
 import Navbar from "../components/Navbar";
 import CartItemCard from "../components/CartItemCard";
 
-import {fetchCart, updateQuantity, deleteCartItem } from "../services/cartService";
-import {redeemVouchers} from "../services/redeemService";
-import "./Cart.css";
+import { fetchCart, updateQuantity, deleteCartItem } from "../services/cartService";
+import { redeemVouchers } from "../services/redeemService";
 
 const Cart = () => {
   const { user } = useAuth();
@@ -75,7 +74,7 @@ const Cart = () => {
     const quantity = item.quantity || 0;
     return acc + quantity * points;
   }, 0);
-  
+
   // Redeem all vouchers in cart
   const handleCheckout = () => {
     if (!user?.uid || cart.length === 0) return;
@@ -88,13 +87,13 @@ const Cart = () => {
       acceptClassName: "p-button-success",
       accept: async () => {
         try {
-         await redeemVouchers({
-          user_id: user.uid,
-          items: cart.map((item) => ({
-            voucher_id: item.voucher_id?._id,
-            quantity: item.quantity,
-          })),
-        });
+          await redeemVouchers({
+            user_id: user.uid,
+            items: cart.map((item) => ({
+              voucher_id: item.voucher_id?._id,
+              quantity: item.quantity,
+            })),
+          });
 
           showToast({
             severity: "success",
@@ -114,17 +113,20 @@ const Cart = () => {
     });
   };
 
+  const cartButtonClass =
+    "min-w-[100px] cursor-pointer rounded-full border-none bg-[#665290] px-5 py-[0.6rem] text-center text-xs font-semibold text-white transition-all duration-200 hover:-translate-y-px hover:bg-[#9986d0]";
+
   return (
     <>
       <Navbar />
-      <div className="cart-page">
-        <h2 className="cart-title">Cart</h2>
+      <div className="flex min-h-[calc(100vh-64px)] flex-col bg-[#f7f7fb] px-8 py-4">
+        <h2 className="mb-6 mt-2 text-xl font-bold text-[#333]">Cart</h2>
 
         {cart.length === 0 ? (
-          <div className="cart-empty">
-            <p>Your cart is currently empty.</p>
+          <div className="flex flex-1 flex-col items-center justify-center pb-40 text-center text-[#555]">
+            <p className="mb-4 text-[0.95rem]">Your cart is currently empty.</p>
             <button
-              className="cart-button browse"
+              className={cartButtonClass}
               onClick={() => navigate("/home")}
             >
               Browse Vouchers
@@ -141,9 +143,12 @@ const Cart = () => {
                 onDelete={remove}
               />
             ))}
-            <div className="checkout-bar">
-              <span>Total Points: {totalPoints}</span>
-              <button className="cart-button checkout" onClick={handleCheckout}>
+            <div className="mt-8 flex items-center justify-between border-t border-[#ddd] pt-4 text-[#333]">
+             <span className="text-[15px]">
+              <span className="font-semibold">Total Points:</span>{" "}
+              <span className="font-semibold text-[#5e4596]">{totalPoints}</span>
+            </span>
+              <button className={cartButtonClass} onClick={handleCheckout}>
                 Checkout
               </button>
             </div>
