@@ -7,7 +7,6 @@ import Navbar from "../components/Navbar";
 import { PiDownloadSimpleBold } from "react-icons/pi";
 
 import { fetchRedeemedHistory } from "../services/historyService";
-import "./Redeemed.css";
 
 const Redeemed = () => {
   const { user } = useAuth();
@@ -70,28 +69,44 @@ const Redeemed = () => {
   return (
     <>
       <Navbar />
-      <div className="redeemed-page">
-        <h2 className="redeemed-title">My Redeemed Vouchers</h2>
+      <div className="flex min-h-[calc(100vh-64px)] flex-col bg-[#f7f7fb] px-8 py-4">
+        <h2 className="mb-6 mt-2 text-xl font-bold text-[#333]">
+          My Redeemed Vouchers
+        </h2>
 
         {flattened.length === 0 ? (
-          <div className="redeemed-empty">
-            <p>You haven't redeemed any vouchers yet.</p>
+          <div className="flex flex-1 flex-col items-center justify-center pb-40 text-center text-[#555]">
+            <p className="mb-4 text-[0.95rem]">
+              You haven't redeemed any vouchers yet.
+            </p>
           </div>
         ) : (
-          <div className="redeemed-list">
+          <div className="flex flex-wrap gap-6">
             {flattened.map((item, idx) => (
-              <div className="redeemed-card" key={`${item._id}-${idx}`}>
+              <div
+                className="flex w-[260px] flex-col overflow-hidden rounded-2xl bg-white shadow-[0_2px_8px_rgba(0,0,0,0.05)] transition-transform duration-200 hover:-translate-y-0.5"
+                key={`${item._id}-${idx}`}
+              >
                 <img
                   src={item.voucher_id?.image}
                   alt="voucher"
-                  className="redeemed-image"
+                  className="h-[140px] w-full object-cover"
                 />
-                <div className="redeemed-details">
-                  <h4>{item.voucher_id?.title}</h4>
-                  <p className="redeemed-date">
-                    Redeemed on: {new Date(item.completed_date).toLocaleDateString()}
+
+                <div className="flex flex-col gap-2 p-4">
+                  <h4 className="m-0 overflow-hidden truncate whitespace-nowrap text-base font-semibold text-[#222]">
+                    {item.voucher_id?.title}
+                  </h4>
+
+                  <p className="text-xs text-[#666]">
+                    Redeemed on:{" "}
+                    {new Date(item.completed_date).toLocaleDateString()}
                   </p>
-                  <button className="download-button" onClick={() => downloadVoucher(item)}>
+
+                  <button
+                    className="flex cursor-pointer items-center justify-center gap-[0.4rem] rounded-full border-none bg-[#665290] px-4 py-[0.6rem] text-xs font-semibold text-white transition-all duration-200 hover:-translate-y-px hover:bg-[#9986d0]"
+                    onClick={() => downloadVoucher(item)}
+                  >
                     DOWNLOAD <PiDownloadSimpleBold size={14} />
                   </button>
                 </div>
