@@ -5,7 +5,6 @@ import { confirmDialog } from "primereact/confirmdialog";
 
 import { addToCart } from "../services/cartService";
 import { redeemVoucher } from "../services/redeemService";
-import "./VoucherModal.css";
 
 const VoucherModal = ({ voucher, onClose }) => {
   const { user } = useAuth();
@@ -21,7 +20,7 @@ const VoucherModal = ({ voucher, onClose }) => {
 
   // Add voucher to cart
   const handleAddToCart = async (e) => {
-    e.stopPropagation(); 
+    e.stopPropagation();
 
     if (!user?.uid) {
       showToast({
@@ -101,36 +100,88 @@ const VoucherModal = ({ voucher, onClose }) => {
     });
   };
 
+  const infoTextClass = "mb-2 text-sm leading-[1.4] text-[#444]";
+  const modalButtonClass =
+    "flex-1 rounded-full border-none px-5 py-[0.9rem] text-[0.8rem] font-semibold transition-all duration-200";
+
   return (
-    <div className="voucher-modal-overlay" onClick={onClose}>
-      <div className="voucher-modal-content" onClick={(e) => e.stopPropagation()}>
-        <img src={voucher.image} alt={voucher.title} className="voucher-modal-image" />
+    <div
+      className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/50 p-4"
+      onClick={onClose}
+    >
+      <div
+        className="w-[90%] max-w-[500px] rounded-2xl bg-white px-8 py-6 shadow-[0_4px_12px_rgba(0,0,0,0.15)]"
+        onClick={(e) => e.stopPropagation()}
+      >
+     <div className="mb-4 flex items-center justify-between">
+        <h2 className="text-[1.2rem] font-semibold text-[#222]">
+          {voucher.title}
+        </h2>
 
-        <h2 className="voucher-modal-title">{voucher.title}</h2>
-        <p className="voucher-modal-description">{voucher.description}</p>
-        <p className="voucher-modal-points"><strong>Points:</strong> {voucher.points}</p>
-        <p className="voucher-modal-terms"><strong>Terms:</strong> {voucher.terms_and_conditions}</p>
-        <p className="voucher-modal-limit"><strong>Limit:</strong> {voucher.limit}</p>
-        <p className="voucher-modal-expiry"><strong>Expires:</strong> {new Date(voucher.expiryDate).toLocaleDateString()}</p>
+         <button
+            onClick={onClose}
+            className="text-3xl font-light leading-none text-[#555] transition hover:text-black"
+          >
+          &times;
+        </button>
+      </div>
 
-        <div className="voucher-modal-actions">
+        <img
+          src={voucher.image}
+          alt={voucher.title}
+          className="mb-4 max-h-[200px] w-full object-cover"
+        />
+
+        <p className={infoTextClass}>{voucher.description}</p>
+
+        <p className={infoTextClass}>
+          <strong>Points:</strong> {voucher.points}
+        </p>
+
+        <p className={infoTextClass}>
+          <strong>Terms:</strong> {voucher.terms_and_conditions}
+        </p>
+
+        <p className={infoTextClass}>
+          <strong>Limit:</strong> {voucher.limit}
+        </p>
+
+        <p className={infoTextClass}>
+          <strong>Expires:</strong>{" "}
+          {new Date(voucher.expiryDate).toLocaleDateString()}
+        </p>
+
+        <div className="mb-0 mt-[1.2rem] flex gap-4">
           {isExpired ? (
-            <div className="voucher-modal-btn expired-placeholder">Expired</div>
+            <div
+              className={`${modalButtonClass} cursor-default select-none bg-[#ccc] text-center text-[#666]`}
+            >
+              Expired
+            </div>
           ) : isDepleted ? (
-            <div className="voucher-modal-btn expired-placeholder">Out of Stock</div>
+            <div
+              className={`${modalButtonClass} cursor-default select-none bg-[#ccc] text-center text-[#666]`}
+            >
+              Out of Stock
+            </div>
           ) : (
             <>
-              <button className="voucher-modal-btn cart" onClick={handleAddToCart}>
+              <button
+                className={`${modalButtonClass} cursor-pointer bg-[#f1f1f1] text-[#333] hover:-translate-y-px hover:bg-[#e0e0e0]`}
+                onClick={handleAddToCart}
+              >
                 Add to Cart
               </button>
-              <button className="voucher-modal-btn redeem" onClick={confirmRedeem}>
+
+              <button
+                className={`${modalButtonClass} cursor-pointer bg-[#665290] text-white hover:-translate-y-px hover:bg-[#9986d0]`}
+                onClick={confirmRedeem}
+              >
                 Redeem
               </button>
             </>
           )}
         </div>
-
-        <button className="voucher-modal-close" onClick={onClose}>✕</button>
       </div>
     </div>
   );
