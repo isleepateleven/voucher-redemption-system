@@ -10,9 +10,10 @@
 
 ## About <a name="about"></a>
 
-VoucherBank is a full-stack MERN web application that simulates a customer loyalty platform where points can be redeemed for vouchers.
+VoucherBank is a full-stack MERN web application that simulates a customer loyalty platform where users can redeem accumulated reward points for digital vouchers.
 
-It allows users to browse vouchers by category, manage selections through a cart system, and redeem rewards using points, while administrators manage vouchers and monitor redemption activity through an analytics dashboard.
+The platform provides a seamless redemption experience, allowing users to discover and redeem rewards with ease, while administrators manage voucher offerings and gain insights into redemption activity through an integrated dashboard.
+
 
 ## Demo  <a name="demo"></a>
 
@@ -105,26 +106,28 @@ docker-compose down
 
 ## How It Works <a name="how_it_works"></a>
 
-User:
+**User**
 
 - Sign in using email/password or Google authentication  
 - Browse vouchers by category  
 - Add vouchers to cart and redeem using points  
-- View and use redeemed vouchers  
+- Download redeemed vouchers as PDF files with QR codes
+- Chat with the AI assistant for voucher-related queries
 - Manage personal profile details  
 
-Administrator:
+**Administrator**
 
 - Perform all user actions  
 - Access the admin dashboard to:  
   - Create, edit, and delete vouchers  
-  - Manage voucher limits and expiry  
+  - Manage voucher limits and expiry dates
+  - View registered users
   - Monitor redemption activity through analytics  
 
 
 ## Built Using <a name="built_using"></a>
 
-Frontend: React, PrimeReact  
+Frontend: React, Tailwind CSS, PrimeReact  
 Backend: Node.js, Express  
 Database: MongoDB Atlas  
 Authentication: Firebase Authentication  
