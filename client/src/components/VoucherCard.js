@@ -92,7 +92,7 @@ const VoucherCard = ({ voucher, onClick }) => {
       header: "Confirm Redemption",
       acceptLabel: "Yes",
       rejectLabel: "No",
-      acceptClassName: "p-button-success",
+      acceptClassName: "p-button-danger",
       accept: handleRedeem,
     });
   };
