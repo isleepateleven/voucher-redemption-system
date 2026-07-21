@@ -10,9 +10,7 @@
 
 ## About <a name="about"></a>
 
-VoucherBank is a full-stack MERN web application that simulates a customer loyalty platform where users can redeem accumulated reward points for digital vouchers.
-
-The platform provides a seamless redemption experience, allowing users to discover and redeem rewards with ease, while administrators manage voucher offerings and gain insights into redemption activity through an integrated dashboard.
+VoucherBank is a full-stack MERN web application that simulates a customer loyalty and rewards platform. It provides a point-based voucher redemption system for users and a comprehensive administration portal for managing vouchers, users, and redemption activities.
 
 
 ## Demo  <a name="demo"></a>
