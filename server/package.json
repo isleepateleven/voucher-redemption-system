@@ -24,6 +24,7 @@
     "mongodb": "^7.1.0",
     "mongoose": "^8.16.5",
     "passport": "^0.7.0",
-    "passport-jwt": "^4.0.1"
+    "passport-jwt": "^4.0.1",
+    "pdfjs-dist": "^6.2.108"
   }
 }
