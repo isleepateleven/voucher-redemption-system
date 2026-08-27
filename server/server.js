@@ -37,7 +37,26 @@ app.use("/api/redeem", redeemRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/analytics", analyticsRoutes);
 
+// Ingest knowledge base on server start
+const { ingestKnowledge } = require("./rag/ingestKnowledge");
+
 // Start server
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+const startServer = async () => {
+  try {
+    // Prepare the RAG knowledge base before accepting requests.
+    await ingestKnowledge();
+
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+  } catch (error) {
+    console.error("Failed to start server:", error);
+    process.exit(1);
+  }
+};
+
+startServer();
+
+// app.listen(PORT, () => {
+//   console.log(`Server running on port ${PORT}`);
+// });
